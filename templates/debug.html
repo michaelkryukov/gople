@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Display a map on a webpage</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+<style>
+body { margin: 0; padding: 0; }
+.map { width: 100%; height: 512px; }
+</style>
+</head>
+<body class="__will_be_ready">
+<div class="map" id="map1"></div>
+<div style="page-break-before:always"></div>
+<div class="map" id="map2"></div>
+<div style="page-break-before:always"></div>
+<div class="map" id="map3"></div>
+<div style="page-break-before:always"></div>
+<div class="map" id="map4"></div>
+<div style="page-break-before:always"></div>
+<div class="map" id="map5"></div>
+<div style="page-break-before:always"></div>
+<div class="map" id="map6"></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoiYmVzdHBsYWNlbWFwIiwiYSI6ImNrM3JnZmlmaTBiOG0zb21uc2ZybGE3dGcifQ.5tgpuq6iXzaW4NJ2zesnjw';
+
+    const maps = [];
+
+    for (const mapInd of [1, 2, 3, 4, 5, 6]) {
+        maps.push(new mapboxgl.Map({
+            container: `map${mapInd}`,
+            style: 'mapbox://styles/mapbox/streets-v12',
+            center: [-74.5, 40],
+            zoom: 9,
+        }));
+    }
+
+    const checkMap = (map) => {
+        return map.loaded() && map.isStyleLoaded() && map.areTilesLoaded();
+    };
+
+    const interval = setInterval(() => {
+        for (const map of maps) {
+            if (!checkMap(map)) {
+                return;
+            }
+        }
+
+        document.body.classList.add('__ready');
+        clearInterval(interval);
+    }, 250);
+</script>
+
+</body>
+</html>
